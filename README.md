@@ -17,7 +17,7 @@ To download the firmware and schematic files, run the following command on your 
     git clone https://gitlab.com/simonegiertz/the-every-day-calendar.git
 ## Firmware
 
-### Connecting Every Day Calendar to the Arduino IDE
+### Connecting the Every Day Calendar to the Arduino IDE
 
 1. Power on the Every Day Calendar with a 5V adapter and connect the calendar to your computer using a USB Type-B to USB Typ-A cable.
 
