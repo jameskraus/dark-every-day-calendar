@@ -1,7 +1,21 @@
-# The Every Day Calendar
+# The Every Day Calendar _with Dark Mode_
+
+![dark mode](/images/dark_mode.gif)
+
+
+I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and reference C++ code. I added a few tweaks that make the calendar better for use in a bedroom at near bedtime:
+
+- Calendar dims for 8 hours when you touch a day ("Dark Mode")
+- Calendar only shows the beginning and end of streaks of days ("Streak Mode")
+- Calendar will temporarily exit streak mode if you press a button while in dark mode. (Helpful if you pressed the wrong day)
+- Calendar will exit dark mode and streak mode if you touch the brightness buttons
+
+
+The rest of the original Readme is below for reference.
+
+---
 
 ![edc](/images/edc.gif)
-
 ## Overview
 
 This repository contains firmware and schematics of the [Every Day Calendar](https://www.kickstarter.com/projects/simonegiertz/the-every-day-calendar) project.
