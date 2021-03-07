@@ -15,8 +15,12 @@ static const int outputEnablePin = 8;
 static SPISettings spiSettings(4000000, MSBFIRST, SPI_MODE0);
 static const uint8_t maxBrightness = 255;
 static uint8_t brightness = maxBrightness/2;
-static uint32_t ledValues[12] = {0}; // Months are the integers in range [0,11], Days are bits within the integers, in range [0,31]
 
+// Months are the integers in range [0,11], Days are bits within the integers, in range [0,31]
+static uint32_t ledValues[12] = {0};
+static uint32_t ledRenders[12] = {0};
+
+static bool isStreakMode = false;
 
 void EverydayCalendar_lights::configure(){
   // LED configurations
@@ -42,6 +46,59 @@ void EverydayCalendar_lights::begin(){
 
 void EverydayCalendar_lights::clearAllLEDs(){
   memset(ledValues, 0, sizeof(ledValues));
+  memset(ledRenders, 0, sizeof(ledRenders));
+}
+
+static const uint8_t monthMaxDay[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+void EverydayCalendar_lights::computeRenderedLEDs() {
+  memset(ledRenders, 0, sizeof(ledRenders));
+  
+  // 365 + 1 day on start to make math easy
+  bool dayIsStreakBorder[366];
+
+  for (int i = 0; i < 366; i++) {
+    dayIsStreakBorder[i] = false;
+  }
+
+  bool isOnStreak = false;
+
+  int dayPtr = 1;
+  for (int month = 0; month <= 11; month++) {
+    for (int day = 0; day <= monthMaxDay[month]-1; day++) {      
+      if (isOnStreak) {
+        if (!getLED(month, day)) {
+          dayIsStreakBorder[dayPtr - 1] = true;
+          isOnStreak = false;
+        }
+      } else {
+        if (getLED(month, day)) {
+          dayIsStreakBorder[dayPtr] = true;
+          isOnStreak = true;
+        }
+      }
+      dayPtr++;
+    }
+  }
+
+  // Fix for last day of year
+  if (isOnStreak) {
+    dayIsStreakBorder[365] = true;
+  }
+
+  dayPtr = 1;
+
+  for (int month = 0; month <= 11; month++) {
+    for (int day = 0; day <= monthMaxDay[month]-1; day++) {      
+      bool startOrEndsStreak = dayIsStreakBorder[dayPtr];
+      
+      if (startOrEndsStreak) {
+        ledRenders[month] = ledRenders[month] | ((uint32_t)1 << day);
+      }
+      
+      dayPtr++;
+    }
+  }
 }
 
 // Month is in range [0,11]
@@ -56,11 +113,25 @@ void EverydayCalendar_lights::setLED(uint8_t month, uint8_t day, bool enable){
   }else{
       ledValues[month] = ledValues[month] & ~((uint32_t)1 << day);
   }
+
+  computeRenderedLEDs();
+}
+
+bool EverydayCalendar_lights::getLED(uint8_t month, uint8_t day){
+   return *(ledValues+month) & ((uint32_t)1 << (day));
 }
 
 void EverydayCalendar_lights::toggleLED(uint8_t month, uint8_t day){
-   bool ledState = (*(ledValues+month) & ((uint32_t)1 << (day)));
+   bool ledState = getLED(month, day);
    setLED(month, day, !ledState);
+}
+
+void EverydayCalendar_lights::enableStreakMode() {
+  isStreakMode = true;
+}
+
+void EverydayCalendar_lights::disableStreakMode() {
+  isStreakMode = false;
 }
 
 void EverydayCalendar_lights::saveLedStatesToMemory(){
@@ -92,6 +163,8 @@ void EverydayCalendar_lights::loadLedStatesFromMemory(){
     Serial.print(" = ");
     Serial.println(ledValues[i]);
   }
+
+  computeRenderedLEDs();
 }
 
 void EverydayCalendar_lights::setBrightness(uint8_t b){
@@ -128,7 +201,10 @@ ISR(TIMER2_OVF_vect) {
 
     // update the next column
     uint16_t month = (1 << activeColumn);
-    uint8_t * pDays = (uint8_t*) (ledValues + activeColumn);
+
+    uint8_t * pDays = isStreakMode
+      ? (uint8_t*) (ledRenders + activeColumn)
+      : (uint8_t*) (ledValues + activeColumn);
 
     // Send the LED control values into the shift registers
     digitalWrite (csPin, LOW);

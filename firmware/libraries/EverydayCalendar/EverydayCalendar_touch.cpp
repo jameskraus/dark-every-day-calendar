@@ -116,8 +116,10 @@ bool EverydayCalendar_touch::scanForTouch(){
     while(tc[i].isReady() == false);
     tc[i].readTouch();
     if(tc[i].atiErrorDetected()){
-      Serial.print(" ATI Error! \tDevice Address: 0x");
-      Serial.println(tcAddresses[i],16);
+      // Disable ATI Error Message while debugging
+
+      // Serial.print(" ATI Error! \tDevice Address: 0x");
+      // Serial.println(tcAddresses[i],16);
     }
     // Do not close the session.  Leave the controller hanging,
     // so it isn't sampling at the same time as others
