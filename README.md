@@ -3,14 +3,16 @@
 ![dark mode](/images/dark_mode.gif)
 
 
-I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and reference C++ code. I added a few tweaks that make the calendar better for use in a bedroom near bedtime. Whenever you press a day:
+I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and reference C++ code. I added a few tweaks that make the calendar better for use in a bedroom near bedtime. Whenever you touch a day:
 
-- The calendar dims the brightness for 8 hours
+- The calendar dims the brightness
 - The calendar only shows the beginning and end of streaks of days
 
-The calendar also temporarily shows all the days if you press them while in dark mode. To exit dark mode early, just tap either of the brightness buttons.
+After 8 hours the calendar will wake out of dark mode so you view all your touched days during the daytime. 
 
-The rest of the original Readme is below for reference.
+The calendar also temporarily shows all the touched days if you touch one while in dark mode. To exit dark mode early, just touch either of the brightness buttons.
+
+The rest of the original Readme is below for reference. These changes to the board firmware are licensed under the MIT license too.
 
 ---
 
