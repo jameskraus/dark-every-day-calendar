@@ -3,13 +3,12 @@
 ![dark mode](/images/dark_mode.gif)
 
 
-I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and reference C++ code. I added a few tweaks that make the calendar better for use in a bedroom near bedtime:
+I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and reference C++ code. I added a few tweaks that make the calendar better for use in a bedroom near bedtime. Whenever you press a day:
 
-- Calendar dims for 8 hours when you touch a day ("Dark Mode")
-- Calendar only shows the beginning and end of streaks of days ("Streak Mode")
-- Calendar will temporarily exit streak mode if you press a button while in dark mode. (Helpful if you pressed the wrong day)
-- Calendar will exit dark mode and streak mode if you touch the brightness buttons
+- The calendar dims the brightness for 8 hours ("Dark Mode")
+- The calendar only shows the beginning and end of streaks of days ("Streak Mode")
 
+The calendar also temporarily shows all the days if you press them while in dark mode. To exit both modes early, just tap either of the brightness buttons.
 
 The rest of the original Readme is below for reference.
 
