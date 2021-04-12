@@ -63,6 +63,9 @@ void EverydayCalendar_lights::computeRenderedLEDs() {
 
   bool isOnStreak = false;
 
+  int lastStreakStartDay = INT16_MAX;
+  int lastStreakStartMonth = INT16_MAX;
+
   int dayPtr = 1;
   for (int month = 0; month <= 11; month++) {
     for (int day = 0; day <= monthMaxDay[month]-1; day++) {      
@@ -75,6 +78,8 @@ void EverydayCalendar_lights::computeRenderedLEDs() {
         if (getLED(month, day)) {
           dayIsStreakBorder[dayPtr] = true;
           isOnStreak = true;
+          lastStreakStartDay = day;
+          lastStreakStartMonth = month;
         }
       }
       dayPtr++;
@@ -91,8 +96,9 @@ void EverydayCalendar_lights::computeRenderedLEDs() {
   for (int month = 0; month <= 11; month++) {
     for (int day = 0; day <= monthMaxDay[month]-1; day++) {      
       bool startOrEndsStreak = dayIsStreakBorder[dayPtr];
+      bool isLastStreak = month >= lastStreakStartMonth && day >= lastStreakStartDay;
       
-      if (startOrEndsStreak) {
+      if (startOrEndsStreak && isLastStreak) {
         ledRenders[month] = ledRenders[month] | ((uint32_t)1 << day);
       }
       
