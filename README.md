@@ -6,7 +6,7 @@
 I wanted an Every Day Calendar that would dim at night when I completed my goal of going to bed on time. As you can imagine, a bright board of glowing lights isn't the best for sleeping. Thankfully the Every Day Calendar has a helpful programming port and the default firmware is online for free. I added a few tweaks that make the calendar better for use near bedtime. Whenever you touch a day:
 
 - The calendar brightness dims
-- The calendar only shows the beginning and end of streaks of days
+- The calendar only shows the beginning and end of your most recent streak of days
 
 After 8 hours the calendar will wake out of dark mode so you view all your touched days during the daytime. 
 
